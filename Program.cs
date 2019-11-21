@@ -223,7 +223,7 @@ namespace LinqExercise
             {
                 bool isMilionaire = num.Balance > 999999;
                 return isMilionaire;
-            }).GroupBy(c => c.Bank);
+            }).GroupBy(customer => customer.Bank);
 
             foreach (var group in groups)
             {
@@ -260,6 +260,39 @@ namespace LinqExercise
             {
                 Console.WriteLine($"{item.CustomerName} at {item.BankName}");
             }
+
+            //Another GroupBy Example
+
+            List<Student> allStudents = new List<Student>()
+            {
+                new Student() { Name = "Madi", Cohort = "27" },
+                new Student() { Name = "Jon", Cohort = "28" },
+                new Student() { Name = "Fortu", Cohort = "28" },
+                new Student() { Name = "Keaton", Cohort = "27" },
+                new Student() { Name = "Jon", Cohort = "35" },
+                new Student() { Name = "Nick", Cohort = "35" },
+                new Student() { Name = "Dylan", Cohort = "35" },
+                new Student() { Name = "Dylan", Cohort = "36" },
+            };
+
+            var studentGroup = allStudents.GroupBy(student => student.Name);
+
+            foreach (var group in studentGroup)
+            {
+                Console.WriteLine($"There are {group.Count()} student with this name: {group.Key}");
+
+                foreach (var item in group)
+                {
+                    Console.WriteLine($"The cohort where he/se is: {item.Cohort}");
+                }
+            }
+
+            var theMostUsedName = allStudents
+                .GroupBy(student => student.Name)
+                .OrderByDescending(group => group.Count())
+                .First();
+
+            Console.WriteLine(theMostUsedName.Key);
 
         }
 
